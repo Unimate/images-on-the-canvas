@@ -17,5 +17,8 @@ export interface IImageEntity {
   width: number;
   height: number;
   rotation: number;
+  reflected: boolean;
   image: HTMLImageElement;
+  index: number;
+  scale: number;
 }

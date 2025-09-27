@@ -1,10 +1,16 @@
 import type { IImageEntity, IPoint } from "../workspace.types";
 
 export const isPointInItem = (point: IPoint, item: IImageEntity) => {
+  const scaledWidth = item.width * item.scale;
+  const scaledHeight = item.height * item.scale;
+
+  const scaledX = item.x - (scaledWidth - item.width) / 2;
+  const scaledY = item.y - (scaledHeight - item.height) / 2;
+
   return (
-    point.x >= item.x &&
-    point.x <= item.x + item.width &&
-    point.y >= item.y &&
-    point.y <= item.y + item.height
+    point.x >= scaledX &&
+    point.x <= scaledX + scaledWidth &&
+    point.y >= scaledY &&
+    point.y <= scaledY + scaledHeight
   );
 };

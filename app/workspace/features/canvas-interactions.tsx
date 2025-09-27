@@ -41,11 +41,9 @@ export const useCanvasInteractions = (
   const handleMouseMove = (e: MouseEvent) => {
     const worldPos = getPosition(e);
     if (isDraggingRef.current && selectedItemRef.current) {
-      const dx = worldPos.x - startPositionRef.current.x;
-      const dy = worldPos.y - startPositionRef.current.y;
       setPosition({
-        x: selectedItemRef.current.x + dx,
-        y: selectedItemRef.current.y + dy,
+        x: worldPos.x - startPositionRef.current.x,
+        y: worldPos.y - startPositionRef.current.y,
       });
     }
   };
@@ -53,22 +51,32 @@ export const useCanvasInteractions = (
   const handleMouseDown = (e: MouseEvent) => {
     const position = getPosition(e);
     setIsDragging(true);
-    let isExists = false;
+    let hits: IImageEntity[] = [];
 
     for (const item of itemsRef.current) {
       if (isPointInItem(position, item)) {
-        setStartPosition(position);
-        setSelectedItem(item);
-        isExists = true;
-        break;
+        hits.push(item);
       }
     }
 
-    if (!isExists) {
+    if (hits.length === 0) {
       setIsDragging(false);
       setSelectedItem(null);
       setStartPosition({ x: 0, y: 0 });
       setPosition({ x: 0, y: 0 });
+    } else {
+      const item = hits.reduce(
+        (acc, item) => (acc.index < item.index ? item : acc),
+        { index: -1 } as IImageEntity,
+      );
+      if (item.index !== -1) {
+        setStartPosition({
+          x: position.x - item.x,
+          y: position.y - item.y,
+        });
+        setSelectedItem(item as IImageEntity);
+        setPosition({ x: item.x, y: item.y });
+      }
     }
   };
 

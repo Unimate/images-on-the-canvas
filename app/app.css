@@ -38,6 +38,42 @@ body {
   border-radius: 8px 8px 0 0;
 }
 
+.second-panel {
+  position: absolute;
+  bottom: calc(72px + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  width: 250px;
+  padding: 16px;
+  background-color: var(--panel-color);
+  border-radius: 8px;
+}
+
 button {
   @apply bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded;
+}
+
+.control-button {
+  cursor: pointer;
+  min-width: 32px;
+  height: 32px;
+  background-color: transparent;
+  color: var(--font-color);
+  border-color: transparent;
+  padding: 0;
+}
+
+.control-button:hover {
+  background-color: transparent;
+}
+
+control-button > img {
+  width: 100%;
+  height: 100%;
 }
